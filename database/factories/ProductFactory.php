@@ -25,13 +25,12 @@ class ProductFactory extends Factory
         $imagePath = $this->faker->image(public_path('images'), 400, 300, null, false);
 
         return [
+            
             'name' => $this->faker->word,
             'description' => $this->faker->sentence,
             'image' => 'images/' . basename($imagePath),
             'price' => $this->faker->numberBetween(10, 1000),
-            'category_id' => function () {
-                return Category::factory()->create()->id;
-            },
+            'category_id' => Category::inRandomOrder()->first()->id,
         ];
     }
 }
