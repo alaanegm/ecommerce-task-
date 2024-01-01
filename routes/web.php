@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ShopController;
+use App\Http\Controllers\OrderController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -62,3 +64,29 @@ Route::put('/products/{product}', [ProductController::class, 'update'])->name('p
 
 // Delete an existing products
 Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('product.destroy');
+
+// List all shops
+Route::get('/shops', [ShopController::class, 'index'])->name('shop.index');
+
+// Create a new products (show the form)
+Route::get('/shops/create', [ShopController::class, 'create'])->name('shop.create');
+
+// Display a specific products
+Route::get('/shops/{shop}', [ShopController::class, 'show'])->name('shop.show');
+
+// Store a new products (process the form submission)
+Route::post('/shops', [ShopController::class, 'store'])->name('shop.store');
+
+// Edit an existing products (show the edit form)
+Route::get('/shops/{shop}/edit', [ShopController::class, 'edit'])->name('shop.edit');
+
+// Update an existing products (process the edit form submission)
+Route::put('/shops/{shop}', [ShopController::class, 'update'])->name('shop.update');
+
+// Delete an existing products
+Route::delete('/shops/{shop}', [ShopController::class, 'destroy'])->name('shop.destroy');
+
+// Create a new order (show the form)
+Route::get('/shops/{shop}/orders/create', [OrderController::class, 'create'])->name('order.create');
+Route::post('/shops/{shop}/orders', [OrderController::class, 'store'])->name('order.store');
+Route::get('/orders/{order}', [OrderController::class, 'show'])->name('order.show');

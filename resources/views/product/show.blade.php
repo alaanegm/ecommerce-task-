@@ -16,6 +16,13 @@
          <a href="{{route('category.show', $product->category_id)}}"> <p class="card-text fs-4">{{$product->category->name}}</p></a>
          @endif
         <p class="card-text"><small class="text-body-secondary fs-4">{{$product->price}}$</p>
+        <ul>
+          @foreach($product->shops as $shop)
+          <li>
+          <a href="{{ route('order.create', ['shop' => $shop->id]) }}" class="link-underline-none">{{ $shop->name }}</a>
+          </li>
+          @endforeach
+        </ul>
       </div>
       <a href="{{route('product.edit', $product)}}"  class="btn btn-danger m-2">Edit</a>
     </div>
