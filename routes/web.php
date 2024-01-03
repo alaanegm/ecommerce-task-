@@ -28,6 +28,10 @@ Route::get('/categories', [CategoryController::class, 'index'])->name('category.
 
 // Create a new category (show the form)
 Route::get('/categories/create', [CategoryController::class, 'create'])->name('category.create');
+// search  an existing category
+
+Route::get('/categories/search', [CategoryController::class, 'search'])->name('category.search');
+Route::post('/categories/products', [CategoryController::class, 'getCategoryProducts'])->name('category.getProducts');
 
 // Display a specific category
 Route::get('/categories/{category}', [CategoryController::class, 'show'])->name('category.show');
@@ -85,8 +89,12 @@ Route::put('/shops/{shop}', [ShopController::class, 'update'])->name('shop.updat
 
 // Delete an existing products
 Route::delete('/shops/{shop}', [ShopController::class, 'destroy'])->name('shop.destroy');
+Route::get('/latest-products', [ShopController::class, 'getLatestShopProducts'])->name('latest-products');
 
 // Create a new order (show the form)
-Route::get('/shops/{shop}/orders/create', [OrderController::class, 'create'])->name('order.create');
+
+Route::get('/orders/create/{shop}', [OrderController::class, 'create'])->name('order.create');
 Route::post('/shops/{shop}/orders', [OrderController::class, 'store'])->name('order.store');
 Route::get('/orders/{order}', [OrderController::class, 'show'])->name('order.show');
+Route::get('/orders', [OrderController::class, 'index'])->name('order.index');
+

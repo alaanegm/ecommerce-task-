@@ -5,9 +5,25 @@ use App\Models\Shop;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class OrderController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    public function index()
+    {
+        $user = Auth::user();
+        $orders = $user->orders()->with('products')->get();
+
+        return view('order.index', compact('orders'));
+    }
+
     public function create($shopId)
     {
         $shop = Shop::findOrFail($shopId);
@@ -16,28 +32,21 @@ class OrderController extends Controller
     }
 
     public function store(Request $request, $shopId)
-    {
-        // Validate the request here
+   {
 
-        $shop = Shop::findOrFail($shopId);
+    $shop = Shop::findOrFail($shopId);
+    $order = new Order();
+    $order->shop()->associate($shop);
+    $order->user_id = Auth::id();
+    $order->save();
 
-        $order = new Order();
-        $order->shop()->associate($shop);
-        
-        $products = [];
-        return $request->input('products');
-        foreach ($request->input('products') as $productId => $quantity) {
-            if ($quantity > 0) {
-                $products[] = [
-                    'product_id' => $productId,
-                    'quantity' => $quantity,
-                ];
-            }
+    foreach ($request->input('products') as $productId => $quantity) {
+        if ($quantity > 0) {
+            $product = Product::findOrFail($productId);
+            $order->products()->attach($product, ['quantity' => $quantity]);
         }
-
-        $order->product_details = json_encode($products);
-        $order->save();
-
-        return redirect()->route('shop.show', ['shop' => $shopId])->with('success', 'Order placed successfully!');
     }
+
+    return redirect()->route('shop.show', ['shop' => $shopId])->with('success', 'Order placed successfully!');
+  }
 }

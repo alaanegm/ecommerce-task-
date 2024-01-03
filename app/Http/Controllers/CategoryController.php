@@ -20,7 +20,11 @@ class CategoryController extends Controller
         $categories = Category::all();
         return view('category.create', ['categories'=>$categories]);
     }
-
+    public function search()
+    { 
+        $categories = Category::all();
+        return view('category.search', ['category' => null]);
+    }
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -60,5 +64,27 @@ class CategoryController extends Controller
     {
         $category->delete();
         return redirect()->route('category.index')->with('success', 'Category deleted successfully');
+    }
+
+    public function getCategoryProducts(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'category_id' => ['required'],
+        ], [
+            'category_id.required' => 'category_id required',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->route('category.search')
+                ->withErrors($validator)
+                ->withInput();
+        }
+        $categoryId = $request->input('category_id');
+        $category = Category::with('children.products')->find($categoryId);
+
+        if (!$category) {
+            return response()->json(['error' => 'Category not found'], 404);
+        }
+        //  return $category;
+        return view('category.search', ['category' => $category]);
     }
 }

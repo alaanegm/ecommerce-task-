@@ -16,10 +16,10 @@ class Order extends Model
       
     public function products()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Product::class)->withPivot('quantity');
     }
-    public function productDetails()
+    public function getProductDetailsAttribute()
     {
-        return json_decode($this->product_details, true);
+        return json_decode($this->attributes['product_details'], true);
     }
 }

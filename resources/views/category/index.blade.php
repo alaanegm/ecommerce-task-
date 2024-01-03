@@ -2,6 +2,8 @@
 @extends('layouts.app')
 @section('content')
 <a href="{{route('category.create')}}"  class="btn btn-primary">Add new category</a>
+<a href="{{route('category.search')}}"  class="btn btn-primary">Search category</a>
+
 <div class="container">
 <div class="row justify-content-start">
   <table class="table table-striped">

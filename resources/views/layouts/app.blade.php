@@ -36,6 +36,12 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('product.index') }}">{{ __('Products') }}</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('latest-products') }}">{{ __('Latest Shop') }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('shop.index') }}">{{ __(' Shops') }}</a>
+                                </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

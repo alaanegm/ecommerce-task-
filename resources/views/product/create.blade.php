@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<form method="post"  action="{{route('product.store')}}">
+<form  action="{{route('product.store')}}" method="post" enctype="multipart/form-data" class="mt-3">
 @csrf
   <div class="mb-3">
     <label  class="form-label">Name</label>
@@ -18,7 +18,7 @@
   </div>
   <div class="mb-3">
     <label  class="form-label">Image</label>
-    <input type="text" class="form-control" name="image" value="{{ old('image') }}">
+    <input type="file" class="form-control" id="image" name="image" accept="image/*">
     @error('image')
       <div class="text-danger"> {{$message}}</div>
      @enderror

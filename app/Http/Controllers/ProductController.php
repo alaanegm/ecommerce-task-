@@ -29,7 +29,7 @@ class ProductController extends Controller
             "name"=>"required|min:5",
             "description"=>"required",
             "price"=>"required",
-            "image"=>"required"
+            'image' => 'required',
         ], [
             "name.required"=>"name  is required",
             'name.min'=>'name  must be at least 5 chars.'
@@ -39,9 +39,25 @@ class ProductController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        $data_request=$request->all();
-        Product::create($data_request);
-        return to_route('product.index');
+        $uploadedFile = $request->file('image');
+
+        if ($request->hasFile('image')&& $uploadedFile->isValid()) {
+            $imageName = time().'.'.$uploadedFile->getClientOriginalExtension();
+            $uploadedFile->move(public_path('images'), $imageName);
+    
+            $product = new Product([
+                'name' => $request->input('name'),
+                'description' => $request->input('description'),
+                'price' => $request->input('price'),
+                'category_id' => $request->input('category_id'),
+                'image' => 'images/'.$imageName,
+            ]);
+
+            $product->save();
+            return redirect()->route('product.index')->with('success', 'Product added successfully!');
+        }
+
+        return back()->withErrors(['image' => 'Failed to upload image']);
     }
 
     public function show(Product $product)

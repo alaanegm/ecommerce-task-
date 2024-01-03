@@ -1,5 +1,7 @@
 @extends('layouts.app')
 @section('content')
+
+<a href="{{ route('order.create',$shop)  }}"  class="btn btn-warning">Place order</a>
 <div class="row justify-content-start">
 <h2>{{ $shop->name }} Products</h2>
  @foreach($shop->products as $product)
@@ -11,7 +13,6 @@
            <p class="card-text">{{$product->description}}</p>
            <p class="card-text fw-bold">{{$product->price}}$</p>
            <a href="{{route('product.show',$product)}}"  class="btn btn-primary">Show</a>
-           <a href="{{ route('order.create', ['shop' => $shop->id]) }}" class="btn btn-warning">Place Order</a>
       </div>
     </div>
   </div>

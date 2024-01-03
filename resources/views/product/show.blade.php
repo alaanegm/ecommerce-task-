@@ -19,7 +19,7 @@
         <ul>
           @foreach($product->shops as $shop)
           <li>
-          <a href="{{ route('order.create', ['shop' => $shop->id]) }}" class="link-underline-none">{{ $shop->name }}</a>
+          <a href="{{ route('shop.show',$shop) }}" class="link-underline-none">{{ $shop->name }}</a>
           </li>
           @endforeach
         </ul>
